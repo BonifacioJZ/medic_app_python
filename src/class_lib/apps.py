@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class PatientConfig(AppConfig):
+class ClassLibConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'src.patient'
+    name = 'src.class_lib'
