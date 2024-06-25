@@ -8,7 +8,7 @@ class Familiar(Person):
         verbose_name_plural = 'familiars'
         
     def __str__(self):
-        return f"${self.first_name} ${self.last_name}" 
+        return f" {self.curp} {self.first_name} {self.last_name}" 
 
 class Patient(Person):
     familiar = models.ManyToManyField(Familiar,blank=True)
