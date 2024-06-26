@@ -1,27 +1,34 @@
 from rest_framework import serializers
 from .models import Familiar,Patient
 
-class FamialiarListSerializer(serializers.ModelSerializer):
+class FamialiarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Familiar
-        fields = ('id','first_name','last_name','curp','email')
+        fields = ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day')
         
-class CreateFamiliarSerializer(serializers.ModelSerializer):
-    
-    
-    #age = serializers.SerializerMethodField(method_name="get_age")
-    class Meta:
-        model = Familiar
-        fields = ('id','first_name','last_name','curp','email','address','city','colony','birth_day')
-    
-    def get_age(self,familiar:Familiar)->int:
-        return familiar.get_age
-    
-    
-class PatientListSerializer(serializers.ModelSerializer):
-    familiars = FamialiarListSerializer(read_only =True)
+
+class PatientFamiliarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ('id','first_name','last_name','curp','email','familiars')
+        fields = ('id','first_name','last_name','curp')
+
+class FamiliarDetailsSerializer(serializers.ModelSerializer):
+    
+    familiars = PatientFamiliarSerializer(many=True,read_only=True)
+    
+    class Meta:
+        model = Familiar
+        fields= ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day','familiars')
+
+        
+class PatientFamiliarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Familiar
+        fields = ('id','first_name','last_name','curp','email','phone')
+
+class PatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ('id','first_name','last_name','curp','birth_day','familiar')
         
         

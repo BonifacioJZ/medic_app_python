@@ -1,2 +1,2 @@
-AUTH_URL ='api/v1/auth/'
-BASE_URL ='api/v1/'
+AUTH_URL ='api/auth/'
+BASE_URL ='api/'

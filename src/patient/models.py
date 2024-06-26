@@ -11,7 +11,7 @@ class Familiar(Person):
         return f" {self.curp} {self.first_name} {self.last_name}" 
 
 class Patient(Person):
-    familiar = models.ManyToManyField(Familiar,blank=True)
+    familiar = models.ManyToManyField(Familiar,blank=True,related_name="familiar")
     
     class Meta:
         verbose_name = 'patient'

@@ -15,9 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import FamiliarListApiView,PatientListApiView,FamiliarCreateApiView
+from .views import FamiliarCreateListApiView,PatientCreateListApiView,FamiliarRetriveApiView,FamiliarUpdateApiView,FamiliarDestroyApiView
 urlpatterns = [
-    path('',PatientListApiView.as_view(),name="patient_index"),
-    path('familiar/',FamiliarListApiView.as_view(),name='familiar_index'),
-    path('familiar/new/',FamiliarCreateApiView.as_view(),name='familiar_new')
+    path('',PatientCreateListApiView.as_view(),name="patient_index"),
+    path('familiar/',FamiliarCreateListApiView.as_view(),name='familiar_index'),
+    path('familiar/<str:pk>/',FamiliarRetriveApiView.as_view(),name="familiar_show"),
+    path('familiar/<str:pk>/edit/',FamiliarUpdateApiView.as_view(),name="familiar_edit"),
+    path('familiar/<str:pk>/delete/',FamiliarDestroyApiView.as_view(),name="familiar_destroy"),
 ]

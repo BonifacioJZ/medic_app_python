@@ -29,6 +29,6 @@ urlpatterns = [
     path(const.AUTH_URL, include('djoser.urls')),
     path(const.AUTH_URL, include('djoser.urls.jwt')),
     ##
-    path('api/patient/',include('src.patient.urls'),name="patients"),
+    path(f"{const.BASE_URL}patient/",include('src.patient.urls'),name="patients"),
     path('admin/', admin.site.urls),
 ]
