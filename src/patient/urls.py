@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.urls import path
 from .views import FamiliarCreateListApiView,PatientCreateListApiView,FamiliarRetriveApiView,FamiliarUpdateApiView,FamiliarDestroyApiView
+from .views import PatientRetrieveApiView
 urlpatterns = [
     path('',PatientCreateListApiView.as_view(),name="patient_index"),
+    path('<str:pk>/',PatientRetrieveApiView.as_view(),name="patient_show"),
     path('familiar/',FamiliarCreateListApiView.as_view(),name='familiar_index'),
     path('familiar/<str:pk>/',FamiliarRetriveApiView.as_view(),name="familiar_show"),
     path('familiar/<str:pk>/edit/',FamiliarUpdateApiView.as_view(),name="familiar_edit"),

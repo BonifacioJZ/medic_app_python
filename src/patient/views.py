@@ -2,6 +2,7 @@ from rest_framework.generics import ListCreateAPIView,RetrieveAPIView,UpdateAPIV
 from rest_framework.response import Response
 from .models import Familiar,Patient
 from .serializers import FamialiarSerializer,PatientSerializer,FamiliarDetailsSerializer
+from .serializers import PatientDetailsSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
@@ -24,7 +25,7 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
 
-class FamiliarRetrieveApiView(RetrieveAPIView):
+class FamiliarRetriveApiView(RetrieveAPIView):
     """
     Esta clase proporciona una vista de la API que permite recuperar (obtener) una instancia específica del modelo Familiar.
     
@@ -113,4 +114,8 @@ class FamiliarDestroyApiView(DestroyAPIView):
 
 class PatientCreateListApiView(ListCreateAPIView):
     queryset= Patient.objects.all().order_by('first_name')
-    serializer_class=PatientSerializer     
+    serializer_class=PatientSerializer
+    
+class PatientRetrieveApiView(RetrieveAPIView):
+    queryset=Patient.objects.all().select_related()
+    serializer_class=PatientDetailsSerializer
