@@ -43,6 +43,7 @@ DJANGO_APPS =[
 LOCAL_APPS = [
     'src.user',
     'src.patient',
+    'src.expedient',
     'src.class_lib',
 ]
 THIRTY_PARTY = [

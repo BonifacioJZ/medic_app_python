@@ -16,11 +16,13 @@ Including another URLconf
 """
 from django.urls import path
 from .views import FamiliarCreateListApiView,PatientCreateListApiView,FamiliarRetriveApiView,FamiliarUpdateApiView,FamiliarDestroyApiView
-from .views import PatientRetrieveApiView
+from .views import PatientRetrieveApiView,PatientDestroyApiView,PatientUpdateApiView
 urlpatterns = [
     path('',PatientCreateListApiView.as_view(),name="patient_index"),
+    path('familiar/',FamiliarCreateListApiView.as_view(),name="familiar_index"),
     path('<str:pk>/',PatientRetrieveApiView.as_view(),name="patient_show"),
-    path('familiar/',FamiliarCreateListApiView.as_view(),name='familiar_index'),
+    path('<str:pk>/edit/',PatientUpdateApiView.as_view(),name="patient_update"),
+    path('<str:pk>/delete/',PatientDestroyApiView.as_view(),name='patient_delete'),
     path('familiar/<str:pk>/',FamiliarRetriveApiView.as_view(),name="familiar_show"),
     path('familiar/<str:pk>/edit/',FamiliarUpdateApiView.as_view(),name="familiar_edit"),
     path('familiar/<str:pk>/delete/',FamiliarDestroyApiView.as_view(),name="familiar_destroy"),

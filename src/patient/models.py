@@ -16,3 +16,6 @@ class Patient(Person):
     class Meta:
         verbose_name = 'patient'
         verbose_name_plural = 'patients'
+    
+    def __str__(self) -> str:
+        return f" {self.curp} {self.first_name} {self.last_name}"
