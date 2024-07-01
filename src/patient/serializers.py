@@ -36,6 +36,11 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields = ('id','first_name','last_name','curp','birth_day','familiar')
 
+class PatientExpedientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ('id','first_name','last_name','curp','birth_day')
+
 class PatientDetailsSerializer(serializers.ModelSerializer):
     familiar = FamiliarPatientSerializer(many=True,read_only=True)
     class Meta:

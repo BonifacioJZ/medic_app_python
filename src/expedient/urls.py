@@ -15,7 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import ExpedientListCreateView
+from .views import ExpedientDestroyApiView,ExpedientListApiView,ExpedientCreateApiView,ExpedientRetrieveViewApiView,ExpedientUpdateApiView
 urlpatterns = [
-    path('',ExpedientListCreateView.as_view(),name="expedient_index"),
+    path('',ExpedientListApiView.as_view(),name="expedient_index"),
+    path('new/',ExpedientCreateApiView.as_view(),name="expedient_store"),
+    path('<str:pk>/',ExpedientRetrieveViewApiView.as_view(),name="expedient_show"),
+    path('<str:pk>/edit/',ExpedientUpdateApiView.as_view(),name="expedient_update"),
+    path('<str:pk>/delete/',ExpedientDestroyApiView.as_view(),name='expedient_delete'),
 ]
