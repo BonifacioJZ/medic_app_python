@@ -22,5 +22,51 @@ class Expedient(models.Model):
     def __str__(self) -> str:
         return f"{self.patient.curp} {self.created_at}"
     
+    def get_imc(self)->float:
+        weight = float(self.weight)
+        height = float(self.height)
+        return weight/pow(height,2)
+    
+    def get_obesity(self)->str:
+        imc = self.get_imc()
+        if imc <18.5:
+            return "Peso Bajo"
+        elif imc < 25:
+            return "Normal"
+        elif imc < 27:
+            return "Sobre Peso 1"
+        elif imc < 30:
+            return "Sobre Peso 2"
+        elif imc < 35:
+            return "Obesidad 1"
+        elif imc < 40:
+            return "Obesidad 2"
+        elif imc < 50:
+            return "Obesidad Morbida"
+        else:
+            return "Obesidad Extrema"
+    
+    def get_blood_pressure(self)->str:
+        diastolic = int(self.diastolic)
+        systolic = int(self.systolic)
+        
+        if diastolic<90 and systolic<60:
+            return "Hipotension"
+        elif diastolic< 120 and systolic<= 80:
+            return "Normal"
+        elif (diastolic>=120 or diastolic<=129) and (systolic<80):
+            return "Elevado"
+        elif (diastolic>=130 or diastolic<=139) or (systolic >=80 or systolic<=89):
+            return "Hipertension level 1"
+        elif (diastolic>=140 or diastolic<=179) or (systolic<=90 or systolic<120):
+            return "Hipertension level 2"
+        elif (diastolic>=180) or (systolic>=120):
+            return "Crisis de Himpertension"
+            
+        
+        
+        
+            
+        
     
     

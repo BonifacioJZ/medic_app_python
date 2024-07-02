@@ -22,8 +22,18 @@ class CreateExpedientSerializer(serializers.ModelSerializer):
 
 class ExpedientDetailsSerializer(serializers.ModelSerializer):
     patient = PatientExpedientSerializer(read_only=True)
+    imc = serializers.SerializerMethodField(method_name="get_imc")
+    obesity = serializers.SerializerMethodField(method_name="get_obesity")
+    blood_pressure= serializers.SerializerMethodField(method_name="get_blood_pressure")
     class Meta:
         model = Expedient
-        fields = ('id','weight','height','pulse','temperature','breathing','systolic','diastolic','created_at','patient')
-        
+        fields = ('id','weight','imc','obesity','height','pulse','temperature','breathing','systolic','diastolic','blood_pressure','created_at','patient')
+    
+    def get_imc(self,expedient:Expedient)->float:
+        return expedient.get_imc()
+    
+    def get_obesity(self,expedient:Expedient)->str:
+        return expedient.get_obesity()
+    def get_blood_pressure(self,expedient:Expedient)->str:
+        return expedient.get_blood_pressure()
         
