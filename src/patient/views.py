@@ -125,7 +125,7 @@ class PatientCreateListApiView(ListCreateAPIView):
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Ordena los resultados por el campo 'first_name' y prefetch_related para optimizar las consultas de relaciones.
-    queryset = Patient.objects.all().order_by('first_name').prefetch_related()
+    queryset = Patient.objects.all().order_by('first_name').prefetch_related().filter(is_active=True)
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Patient
     # a y desde representaciones de datos como JSON.
@@ -144,7 +144,7 @@ class PatientRetrieveApiView(RetrieveAPIView):
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Se utiliza prefetch_related para optimizar las consultas de relaciones.
-    queryset = Patient.objects.all().prefetch_related()
+    queryset = Patient.objects.all().prefetch_related().filter(is_active=True)
     
     # Define la clase de serializador que se utilizará para convertir la instancia del modelo Patient
     # a y desde representaciones de datos como JSON.

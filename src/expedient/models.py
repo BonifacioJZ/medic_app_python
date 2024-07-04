@@ -12,6 +12,7 @@ class Expedient(models.Model):
     systolic = models.DecimalField(verbose_name='Presion Sistolica',max_digits=3,decimal_places=0)
     diastolic= models.DecimalField(verbose_name='Presion Diastolica',max_digits=3,decimal_places=0)
     patient = models.ForeignKey(Patient,null=False,blank=False,related_name='patient',on_delete=models.CASCADE,verbose_name="Paciente")
+    is_active=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
