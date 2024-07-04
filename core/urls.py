@@ -29,7 +29,7 @@ urlpatterns = [
     path(const.AUTH_URL, include('djoser.urls')),
     path(const.AUTH_URL, include('djoser.urls.jwt')),
     ##
-    path(f'{const.BASE_URL}patients/expedient/',include('src.expedient.urls'),name='expedients'),
+    path(f'{const.BASE_URL}expedient/',include('src.expedient.urls'),name='expedients'),
     ##
     path(f"{const.BASE_URL}patient/",include('src.patient.urls'),name="patients"),
     ##
