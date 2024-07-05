@@ -41,14 +41,23 @@ class ExpedientCreateApiView(CreateAPIView):
     # Define el queryset que se utilizará para obtener los datos del modelo.
     queryset = CreateExpedientSerializer.Meta.model.objects.all()
     
-    
     def post(self, request, *args, **kwargs):
+        """
+        Maneja las solicitudes POST para crear una nueva instancia del modelo.
+        
+        Args:
+            request (Request): La solicitud que contiene los datos para crear el objeto.
+        
+        Returns:
+            Response: Una respuesta HTTP con los datos del nuevo objeto creado o los errores de validación.
+        """
         user = request.user
         instance = self.serializer_class(data=request.data)
         if instance.is_valid():
             instance.save(user=user)
-            return Response(data=instance.data,status=status.HTTP_201_CREATED)
-        return Response(data=instance.errors,status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=instance.data, status=status.HTTP_201_CREATED)
+        return Response(data=instance.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
     
 class ExpedientRetrieveViewApiView(RetrieveAPIView):
