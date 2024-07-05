@@ -97,7 +97,7 @@ class FamiliarUpdateApiView(UpdateAPIView):
         
 class FamiliarDestroyApiView(DestroyAPIView):
     """
-    Esta clase proporciona una vista de la API que permite eliminar una instancia específica del modelo Familiar.
+    Esta clase proporciona una vista de la API que permite eliminar (desactivar) una instancia específica del modelo Familiar.
     
     Hereda de DestroyAPIView que proporciona la operación DELETE para eliminar un objeto.
     """
@@ -111,7 +111,38 @@ class FamiliarDestroyApiView(DestroyAPIView):
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
- 
+    
+    def get_queryset(self, pk: str):
+        """
+        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
+        
+        Args:
+            pk (str): La clave primaria de la instancia del modelo.
+        
+        Returns:
+            QuerySet: Un queryset con la instancia del modelo filtrada por la clave primaria.
+        """
+        return self.serializer_class.Meta.model.objects.filter(pk=pk).first()
+    
+    def delete(self, request, pk: str, *args, **kwargs):
+        """
+        Desactiva la instancia del modelo especificada.
+        
+        Args:
+            request (Request): La solicitud que contiene los datos para eliminar.
+            pk (str): La clave primaria de la instancia del modelo a desactivar.
+        
+        Returns:
+            Response: Una respuesta HTTP con un mensaje de éxito o un error 404 si la instancia no se encuentra.
+        """
+        familiar = self.get_queryset(pk)
+        if familiar:
+            familiar.is_active = False
+            familiar.save()
+            return Response({"message": "deleted"}, status=status.HTTP_204_NO_CONTENT)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 class PatientCreateListApiView(ListCreateAPIView):
     """
@@ -203,7 +234,7 @@ class PatientUpdateApiView(UpdateAPIView):
 
 class PatientDestroyApiView(DestroyAPIView):
     """
-    Esta clase proporciona una vista de la API que permite eliminar una instancia específica del modelo Patient.
+    Esta clase proporciona una vista de la API que permite eliminar (desactivar) una instancia específica del modelo Patient.
     
     Hereda de DestroyAPIView que proporciona la operación DELETE para eliminar un objeto.
     """
@@ -217,3 +248,36 @@ class PatientDestroyApiView(DestroyAPIView):
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Patient
     # a y desde representaciones de datos como JSON.
     serializer_class = PatientSerializer
+    
+    def get_queryset(self, pk: str):
+        """
+        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
+        
+        Args:
+            pk (str): La clave primaria de la instancia del modelo.
+        
+        Returns:
+            QuerySet: Un queryset con la instancia del modelo filtrada por la clave primaria.
+        """
+        return self.serializer_class.Meta.model.objects.filter(pk=pk).first()
+    
+    def delete(self, request, pk: str, *args, **kwargs):
+        """
+        Desactiva la instancia del modelo especificada.
+        
+        Args:
+            request (Request): La solicitud que contiene los datos para eliminar.
+            pk (str): La clave primaria de la instancia del modelo a desactivar.
+        
+        Returns:
+            Response: Una respuesta HTTP con un mensaje de éxito o un error 404 si la instancia no se encuentra.
+        """
+        patient = self.get_queryset(pk)
+        
+        if patient:
+            patient.is_active = False
+            patient.save()
+            return Response({"message": "deleted"}, status=status.HTTP_204_NO_CONTENT)
+        
+        return Response(status=status.HTTP_404_NOT_FOUND)
+

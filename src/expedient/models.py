@@ -1,6 +1,9 @@
 from django.db import models
 from src.patient.models import Patient
 import uuid
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 # Create your models here.
 class Expedient(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
@@ -12,6 +15,7 @@ class Expedient(models.Model):
     systolic = models.DecimalField(verbose_name='Presion Sistolica',max_digits=3,decimal_places=0)
     diastolic= models.DecimalField(verbose_name='Presion Diastolica',max_digits=3,decimal_places=0)
     patient = models.ForeignKey(Patient,null=False,blank=False,related_name='patient',on_delete=models.CASCADE,verbose_name="Paciente")
+    user = models.ForeignKey(User,null=True,blank=True,related_name="user",on_delete=models.CASCADE,verbose_name="Usuario")
     is_active=models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

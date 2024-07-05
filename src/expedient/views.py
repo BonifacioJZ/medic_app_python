@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from  rest_framework import status
 from rest_framework.response import Response
 # Create your views here.
-
+#TODO(Agregar los perimisos de grupos a los endpoints)
 class ExpedientListApiView(ListAPIView):
     """
     Esta clase proporciona una vista de la API que permite listar todas las instancias activas del modelo asociado.
@@ -40,6 +40,15 @@ class ExpedientCreateApiView(CreateAPIView):
     
     # Define el queryset que se utilizará para obtener los datos del modelo.
     queryset = CreateExpedientSerializer.Meta.model.objects.all()
+    
+    
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        instance = self.serializer_class(data=request.data)
+        if instance.is_valid():
+            instance.save(user=user)
+            return Response(data=instance.data,status=status.HTTP_201_CREATED)
+        return Response(data=instance.errors,status=status.HTTP_400_BAD_REQUEST)
 
     
 class ExpedientRetrieveViewApiView(RetrieveAPIView):
