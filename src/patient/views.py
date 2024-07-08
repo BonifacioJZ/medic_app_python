@@ -24,7 +24,7 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
-
+    
 
 class FamiliarRetriveApiView(RetrieveAPIView):
     """

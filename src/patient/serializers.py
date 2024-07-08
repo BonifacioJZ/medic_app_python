@@ -2,11 +2,19 @@ import datetime
 from rest_framework import serializers
 from .models import Familiar,Patient
 from src.expedient.models import Expedient
+
+
+
 class FamialiarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Familiar
         fields = ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day')
         
+    def validate_curp(self,value:str)->str:
+        value = value.upper()
+        if Familiar.objects.filter(curp=value):
+            raise serializers.ValidationError("La curp debe ser unica")
+        return value
 
 class PatientFamiliarSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,6 +43,12 @@ class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
         fields = ('id','first_name','last_name','curp','birth_day','familiar')
+        
+    def validate_curp(self,value:str)->str:
+        value = value.upper()
+        if Familiar.objects.filter(curp=value):
+            raise serializers.ValidationError("La curp debe ser unica")
+        return value
 
 class PatientExpedientSerializer(serializers.ModelSerializer):
     class Meta:

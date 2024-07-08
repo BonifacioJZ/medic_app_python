@@ -4,7 +4,10 @@ from rest_framework.permissions import IsAuthenticated
 from  rest_framework import status
 from rest_framework.response import Response
 # Create your views here.
+
 #TODO(Agregar los perimisos de grupos a los endpoints)
+
+
 class ExpedientListApiView(ListAPIView):
     """
     Esta clase proporciona una vista de la API que permite listar todas las instancias activas del modelo asociado.
