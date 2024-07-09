@@ -45,6 +45,7 @@ LOCAL_APPS = [
     'src.patient',
     'src.expedient',
     'src.class_lib',
+    'src.permissons',
 ]
 THIRTY_PARTY = [
     'rest_framework',
