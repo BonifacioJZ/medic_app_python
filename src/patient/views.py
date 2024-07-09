@@ -6,9 +6,9 @@ from .serializers import PatientDetailsSerializer,PatientUpdateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from src.permissons.permissons import IsSuperuser,HasGroupPermission
+from rest_framework.viewsets import ModelViewSet
 
-
-class FamiliarCreateListApiView(ListCreateAPIView):
+class FamiliarApiView(ModelViewSet):
     """
     Esta clase proporciona una vista de la API que permite listar y crear instancias del modelo Familiar.
     
@@ -16,7 +16,10 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,HasGroupPermission,)
+    permission_classes = (IsAuthenticated,HasGroupPermission|IsSuperuser,)
+    permission_groups = {
+        'create':['Nurses','Doctor']
+    }
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     # Ordena los resultados por el campo 'first_name'.
@@ -25,73 +28,14 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
-    permission_group = {
-        'create':['Nurses','Doctor']
-    }
     
-
-class FamiliarRetriveApiView(RetrieveAPIView):
-    """
-    Esta clase proporciona una vista de la API que permite recuperar (obtener) una instancia específica del modelo Familiar.
-    
-    Hereda de RetrieveAPIView que proporciona la operación GET para obtener un solo objeto.
-    """
-    
-    # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,)
-    
-    # Define la clase de serializador que se utilizará para convertir la instancia del modelo Familiar
-    # a y desde representaciones de datos como JSON.
-    serializer_class = FamiliarDetailsSerializer
-    
-    # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
-    # Se utiliza select_related para realizar una única consulta SQL que incluya las relaciones de clave externa.
-    queryset = Familiar.objects.select_related().all()
-
-    
-class FamiliarUpdateApiView(UpdateAPIView):
-    """
-    Esta clase proporciona una vista de la API que permite actualizar una instancia específica del modelo Familiar.
-    
-    Hereda de UpdateAPIView que proporciona la operación PUT para actualizar un objeto.
-    """
-    
-    # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsAuthenticated)
-    
-    # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
-    queryset = Familiar.objects.all()
-    
-    # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
-    # a y desde representaciones de datos como JSON.
-    serializer_class = FamialiarSerializer
-    
-    def get_queryset(self, pk=None):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
+    def update(self, request,pk=None):
+        serializer = FamialiarSerializer
+        queryset = self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
         
-        Args:
-            pk (int): La clave primaria de la instancia del modelo Familiar.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo Familiar filtrada por la clave primaria.
-        """
-        return self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
-    
-    def update(self, request, pk=None, *args, **kwargs):
-        """
-        Actualiza la instancia del modelo Familiar especificada.
-        
-        Args:
-            request (Request): La solicitud que contiene los datos para actualizar.
-            pk (int): La clave primaria de la instancia del modelo Familiar a actualizar.
-        
-        Returns:
-            Response: Una respuesta HTTP con los datos actualizados o los errores de validación.
-        """
-        familiar_instance = self.get_queryset(pk)
+        familiar_instance = queryset(pk)
         if familiar_instance:
-            familiar_serializer = self.serializer_class(familiar_instance, data=request.data)
+            familiar_serializer = serializer(familiar_instance, data=request.data)
             if familiar_serializer.is_valid():
                 familiar_serializer.save()
                 return Response(familiar_serializer.data, status=status.HTTP_200_OK)
@@ -148,42 +92,19 @@ class FamiliarDestroyApiView(DestroyAPIView):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
-class PatientCreateListApiView(ListCreateAPIView):
+class PatientApiView(ModelViewSet):
     """
     Esta clase proporciona una vista de la API que permite listar y crear instancias del modelo Patient.
     
     Hereda de ListCreateAPIView que proporciona las operaciones GET (para listar objetos) y POST (para crear un nuevo objeto).
     """
-    
+    serializer_class = FamialiarSerializer
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,)
-    
-    # Define el queryset que se utilizará para obtener los datos del modelo Patient.
-    # Ordena los resultados por el campo 'first_name' y prefetch_related para optimizar las consultas de relaciones.
-    queryset = Patient.objects.all().order_by('first_name').prefetch_related().filter(is_active=True)
-    
-    # Define la clase de serializador que se utilizará para convertir las instancias del modelo Patient
-    # a y desde representaciones de datos como JSON.
-    serializer_class = PatientSerializer
+    permission_classes = (IsAuthenticated,HasGroupPermission|IsSuperuser,)
+    permission_groups = {
+        'create':['Nurses','Doctor']
+    }
 
-    
-class PatientRetrieveApiView(RetrieveAPIView):
-    """
-    Esta clase proporciona una vista de la API que permite recuperar (obtener) una instancia específica del modelo Patient.
-    
-    Hereda de RetrieveAPIView que proporciona la operación GET para obtener un solo objeto.
-    """
-    
-    # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser)
-    
-    # Define el queryset que se utilizará para obtener los datos del modelo Patient.
-    # Se utiliza prefetch_related para optimizar las consultas de relaciones.
-    queryset = Patient.objects.all().prefetch_related().filter(is_active=True)
-    
-    # Define la clase de serializador que se utilizará para convertir la instancia del modelo Patient
-    # a y desde representaciones de datos como JSON.
-    serializer_class = PatientDetailsSerializer
 
 class PatientUpdateApiView(UpdateAPIView):
     """

@@ -31,7 +31,7 @@ urlpatterns = [
     ##
     path(f'{const.BASE_URL}expedient/',include('src.expedient.urls'),name='expedients'),
     ##
-    path(f"{const.BASE_URL}patient/",include('src.patient.urls'),name="patients"),
+    path(f"{const.BASE_URL}patient/",include('src.patient.urls')),
     ##
     
     ##

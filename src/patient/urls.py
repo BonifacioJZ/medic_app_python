@@ -15,15 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import FamiliarCreateListApiView,PatientCreateListApiView,FamiliarRetriveApiView,FamiliarUpdateApiView,FamiliarDestroyApiView
-from .views import PatientRetrieveApiView,PatientDestroyApiView,PatientUpdateApiView
-urlpatterns = [
-    path('',PatientCreateListApiView.as_view(),name="patient_index"),
-    path('familiar/',FamiliarCreateListApiView.as_view(),name="familiar_index"),
-    path('<str:pk>/',PatientRetrieveApiView.as_view(),name="patient_show"),
-    path('<str:pk>/edit/',PatientUpdateApiView.as_view(),name="patient_update"),
-    path('<str:pk>/delete/',PatientDestroyApiView.as_view(),name='patient_delete'),
-    path('familiar/<str:pk>/',FamiliarRetriveApiView.as_view(),name="familiar_show"),
-    path('familiar/<str:pk>/edit/',FamiliarUpdateApiView.as_view(),name="familiar_edit"),
-    path('familiar/<str:pk>/delete/',FamiliarDestroyApiView.as_view(),name="familiar_destroy"),
-]
+from .views import FamiliarApiView,PatientApiView
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'familiar', FamiliarApiView, basename='familiar')
+router.register(r'',PatientApiView,basename='patient')
+urlpatterns = router.urls
