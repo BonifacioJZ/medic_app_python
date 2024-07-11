@@ -6,11 +6,11 @@ class Person(models.Model):
     id = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
     first_name = models.CharField(max_length=255,null=False,blank=False)
     last_name = models.CharField(max_length=255,null=False,blank=False)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=100,null=True,blank=True)
     city = models.CharField(max_length=100,null=True,blank=True)
     colony = models.CharField(max_length=100,null=True,blank=True)
     curp = models.CharField(max_length=18,unique=True,null=False,blank=False)
-    birth_day = models.DateField()
+    birth_day = models.DateField(null=False,blank=False)
     email = models.EmailField(max_length=255, unique=True, null=True,blank=True)
     phone = models.CharField(max_length=13,null=True,blank=True,default="000-000-0000")
     is_active=models.BooleanField(default=True)
@@ -19,6 +19,3 @@ class Person(models.Model):
     
     class Meta:
         abstract =True
-        
-    def  get_age(self)->int:
-        return datetime.datetime.now().year - self.birth_day.year 

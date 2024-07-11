@@ -30,7 +30,7 @@ class FamiliarDetailsSerializer(serializers.ModelSerializer):
         fields= ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day','age','familiar')
     
     def get_age(self,familiar:Familiar):
-        return familiar.get_age()
+        return datetime.datetime.now().year- familiar.birth_day.year
     
 
         
@@ -68,7 +68,7 @@ class PatientDetailsSerializer(serializers.ModelSerializer):
         fields = ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day','familiar','patient')
     
     def get_age(self,patient:Patient):
-        return patient.get_age() 
+        return datetime.datetime.now().year- patient.birth_day.year
     
     def get_expedients(self,patient:Patient):
         query = ListExpedietSerializer.Meta.model.objects.filter(patient=patient,is_active=True)

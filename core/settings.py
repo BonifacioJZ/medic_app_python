@@ -46,6 +46,7 @@ LOCAL_APPS = [
     'src.expedient',
     'src.class_lib',
     'src.permissons',
+    'src.allergies'
 ]
 THIRTY_PARTY = [
     'rest_framework',
@@ -54,6 +55,7 @@ THIRTY_PARTY = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'drf_spectacular',
+    'guardian',
 ]
 
 # Application definition
@@ -138,7 +140,6 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL="user.UserAccount"
 
 REST_FRAMEWORK = {
 
@@ -149,7 +150,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 50
 }
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer', ),
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10080),
@@ -189,3 +193,4 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+AUTH_USER_MODEL="user.UserAccount"

@@ -3,10 +3,8 @@ from .serializer import ExpedientSerializer,ListExpedietSerializer,CreateExpedie
 from rest_framework.permissions import IsAuthenticated
 from  rest_framework import status
 from rest_framework.response import Response
+from src.permissons.permissons import CustomObjectPermissions
 # Create your views here.
-
-#TODO(Agregar los perimisos de grupos a los endpoints)
-
 
 class ExpedientListApiView(ListAPIView):
     """
@@ -16,7 +14,7 @@ class ExpedientListApiView(ListAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomObjectPermissions)
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo
     # a y desde representaciones de datos como JSON.
@@ -35,7 +33,7 @@ class ExpedientCreateApiView(CreateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo
     # a y desde representaciones de datos como JSON.
@@ -71,7 +69,7 @@ class ExpedientRetrieveViewApiView(RetrieveAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define la clase de serializador que se utilizará para convertir la instancia del modelo
     # a y desde representaciones de datos como JSON.
@@ -88,7 +86,7 @@ class ExpedientUpdateApiView(UpdateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo
     # a y desde representaciones de datos como JSON.
@@ -108,7 +106,7 @@ class ExpedientDestroyApiView(DestroyAPIView):
     # Define las clases de permisos que se aplicarán a esta vista.
     # Se comenta la línea de permisos para que el código funcione sin restricciones de autenticación. 
     # Descomentar la siguiente línea para exigir autenticación:
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo
     # a y desde representaciones de datos como JSON.

@@ -7,3 +7,4 @@ Markdown
 mutagen
 PyJWT
 drf-spectacular
+djangorestframework-guardian2

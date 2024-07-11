@@ -1,11 +1,11 @@
 from rest_framework.generics import ListCreateAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView
 from rest_framework.response import Response
+from rest_framework_guardian import filters
 from .models import Familiar,Patient
 from .serializers import FamialiarSerializer,PatientSerializer,FamiliarDetailsSerializer
 from .serializers import PatientDetailsSerializer,PatientUpdateSerializer
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from src.permissons.permissons import IsSuperuser,HasGroupPermission
+from src.permissons.permissons import CustomObjectPermissions,IsUserActive
 
 class FamiliarCreateListApiView(ListCreateAPIView):
     """
@@ -15,7 +15,8 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     # Ordena los resultados por el campo 'first_name'.
@@ -24,6 +25,7 @@ class FamiliarCreateListApiView(ListCreateAPIView):
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
+    
     
 
 class FamiliarRetriveApiView(RetrieveAPIView):
@@ -34,7 +36,7 @@ class FamiliarRetriveApiView(RetrieveAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define la clase de serializador que se utilizará para convertir la instancia del modelo Familiar
     # a y desde representaciones de datos como JSON.
@@ -53,7 +55,7 @@ class FamiliarUpdateApiView(UpdateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsAuthenticated)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     queryset = Familiar.objects.all()
@@ -103,7 +105,7 @@ class FamiliarDestroyApiView(DestroyAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     queryset = Familiar.objects.all()
@@ -152,7 +154,7 @@ class PatientCreateListApiView(ListCreateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Ordena los resultados por el campo 'first_name' y prefetch_related para optimizar las consultas de relaciones.
@@ -171,7 +173,7 @@ class PatientRetrieveApiView(RetrieveAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Se utiliza prefetch_related para optimizar las consultas de relaciones.
@@ -189,7 +191,7 @@ class PatientUpdateApiView(UpdateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser,)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     queryset = Patient.objects.all()
@@ -240,7 +242,7 @@ class PatientDestroyApiView(DestroyAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (IsAuthenticated,IsSuperuser)
+    permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     queryset = Patient.objects.all()
