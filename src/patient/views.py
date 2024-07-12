@@ -36,7 +36,8 @@ class FamiliarRetriveApiView(RetrieveAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define la clase de serializador que se utilizará para convertir la instancia del modelo Familiar
     # a y desde representaciones de datos como JSON.
@@ -55,7 +56,8 @@ class FamiliarUpdateApiView(UpdateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     queryset = Familiar.objects.all()
@@ -105,7 +107,8 @@ class FamiliarDestroyApiView(DestroyAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
     queryset = Familiar.objects.all()
@@ -154,7 +157,8 @@ class PatientCreateListApiView(ListCreateAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Ordena los resultados por el campo 'first_name' y prefetch_related para optimizar las consultas de relaciones.
@@ -173,7 +177,8 @@ class PatientRetrieveApiView(RetrieveAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     # Se utiliza prefetch_related para optimizar las consultas de relaciones.
@@ -242,8 +247,8 @@ class PatientDestroyApiView(DestroyAPIView):
     """
     
     # Define las clases de permisos que se aplicarán a esta vista.
-    permission_classes = (CustomObjectPermissions,)
-    
+    permission_classes = (CustomObjectPermissions,IsUserActive,)
+    filter_backends = [filters.ObjectPermissionsFilter]
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
     queryset = Patient.objects.all()
     
