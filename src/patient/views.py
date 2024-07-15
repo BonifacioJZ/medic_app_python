@@ -59,24 +59,11 @@ class FamiliarUpdateApiView(UpdateAPIView):
     permission_classes = (CustomObjectPermissions,IsUserActive,)
     filter_backends = [filters.ObjectPermissionsFilter]
     
-    # Define el queryset que se utilizará para obtener los datos del modelo Familiar.
-    queryset = Familiar.objects.all()
-    
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Familiar
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
+    queryset=FamialiarSerializer.Meta.model.objects.all()
     
-    def get_queryset(self, pk=None):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
-        
-        Args:
-            pk (int): La clave primaria de la instancia del modelo Familiar.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo Familiar filtrada por la clave primaria.
-        """
-        return self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
     
     def update(self, request, pk=None, *args, **kwargs):
         """
@@ -89,7 +76,7 @@ class FamiliarUpdateApiView(UpdateAPIView):
         Returns:
             Response: Una respuesta HTTP con los datos actualizados o los errores de validación.
         """
-        familiar_instance = self.get_queryset(pk)
+        familiar_instance = self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
         if familiar_instance:
             familiar_serializer = self.serializer_class(familiar_instance, data=request.data)
             if familiar_serializer.is_valid():
@@ -117,17 +104,6 @@ class FamiliarDestroyApiView(DestroyAPIView):
     # a y desde representaciones de datos como JSON.
     serializer_class = FamialiarSerializer
     
-    def get_queryset(self, pk: str):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
-        
-        Args:
-            pk (str): La clave primaria de la instancia del modelo.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo filtrada por la clave primaria.
-        """
-        return self.serializer_class.Meta.model.objects.filter(pk=pk).first()
     
     def delete(self, request, pk: str, *args, **kwargs):
         """
@@ -140,7 +116,7 @@ class FamiliarDestroyApiView(DestroyAPIView):
         Returns:
             Response: Una respuesta HTTP con un mensaje de éxito o un error 404 si la instancia no se encuentra.
         """
-        familiar = self.get_queryset(pk)
+        familiar = self.serializer_class.Meta.model.objects.filter(pk=pk).first()
         if familiar:
             familiar.is_active = False
             familiar.save()

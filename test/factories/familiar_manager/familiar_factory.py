@@ -13,8 +13,8 @@ class FamiliarFactory:
             'colony':'Av Revolucion',
             'curp':'BKVL360219MTLHZU66',
             'email':faker.email(),
-            'phone':faker.phone_number(),
-            "birth_day": datetime.today(),
+            'phone':'000-000-0000',
+            "birth_day": '1997-02-21',
         }
     def build_familiar(self):
         return Familiar.objects.create(**self.build_familiar_JSON())
