@@ -77,6 +77,17 @@ class FamiliarTestCase(TestSetUp):
             familiar,
             format='json'
         )  
-        print(response.data)  
+        
         self.assertEqual(response.status_code,status.HTTP_200_OK)
         self.assertNotEqual(response.data['first_name'],oldFamiliar.first_name)
+        self.assertEqual(response.data['first_name'],familiar['first_name'])
+    
+    def test_delete_familiar(self):
+        familiar = FamiliarFactory().build_familiar()
+        
+        response = self.client.delete(
+            reverse('familiar_destroy',args=[familiar.id]),
+            format = 'json'
+        )
+        
+        self.assertEqual(response.status_code,status.HTTP_204_NO_CONTENT)
