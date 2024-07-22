@@ -1,7 +1,6 @@
 from src.patient.models import Patient,Familiar
 from src.patient.serializers import PatientSerializer
 from faker import Faker
-from test.factories.familiar_manager.familiar_factory import FamiliarFactory
 faker = Faker()
 
 class PatientFactory:

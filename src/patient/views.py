@@ -175,23 +175,12 @@ class PatientUpdateApiView(UpdateAPIView):
     permission_classes = (CustomObjectPermissions,)
     
     # Define el queryset que se utilizará para obtener los datos del modelo Patient.
-    queryset = Patient.objects.all()
+    queryset = PatientUpdateSerializer.Meta.model.objects.all()
     
     # Define la clase de serializador que se utilizará para convertir las instancias del modelo Patient
     # a y desde representaciones de datos como JSON.
     serializer_class = PatientUpdateSerializer
     
-    def get_queryset(self, pk: str = None):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
-        
-        Args:
-            pk (str): La clave primaria de la instancia del modelo Patient.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo Patient filtrada por la clave primaria.
-        """
-        return self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
     
     def put(self, request, pk: str = None, *args, **kwargs):
         """
@@ -204,7 +193,7 @@ class PatientUpdateApiView(UpdateAPIView):
         Returns:
             Response: Una respuesta HTTP con los datos actualizados o los errores de validación.
         """
-        patient_instance = self.get_queryset(pk)
+        patient_instance = self.get_serializer().Meta.model.objects.all().filter(pk=pk).first()
         if patient_instance:
             patient_serializer = self.serializer_class(patient_instance, data=request.data)
             if patient_serializer.is_valid():
@@ -232,17 +221,6 @@ class PatientDestroyApiView(DestroyAPIView):
     # a y desde representaciones de datos como JSON.
     serializer_class = PatientSerializer
     
-    def get_queryset(self, pk: str):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada.
-        
-        Args:
-            pk (str): La clave primaria de la instancia del modelo.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo filtrada por la clave primaria.
-        """
-        return self.serializer_class.Meta.model.objects.filter(pk=pk).first()
     
     def delete(self, request, pk: str, *args, **kwargs):
         """
@@ -255,7 +233,7 @@ class PatientDestroyApiView(DestroyAPIView):
         Returns:
             Response: Una respuesta HTTP con un mensaje de éxito o un error 404 si la instancia no se encuentra.
         """
-        patient = self.get_queryset(pk)
+        patient = self.serializer_class.Meta.model.objects.filter(pk=pk).first()
         
         if patient:
             patient.is_active = False
