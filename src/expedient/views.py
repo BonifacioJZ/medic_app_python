@@ -121,17 +121,6 @@ class ExpedientDestroyApiView(DestroyAPIView):
     # Define el queryset que se utilizará para obtener los datos del modelo.
     queryset = ExpedientSerializer.Meta.model.objects.all()
     
-    def get_queryset(self, pk: str):
-        """
-        Obtiene el queryset filtrado por la clave primaria (pk) especificada y por instancias activas.
-        
-        Args:
-            pk (str): La clave primaria de la instancia del modelo.
-        
-        Returns:
-            QuerySet: Un queryset con la instancia del modelo filtrada por la clave primaria y activa.
-        """
-        return self.get_serializer().Meta.model.objects.all().filter(pk=pk, is_active=True).first()
     
     def delete(self, request, pk: str, *args, **kwargs):
         """
@@ -144,7 +133,7 @@ class ExpedientDestroyApiView(DestroyAPIView):
         Returns:
             Response: Una respuesta HTTP con un mensaje de éxito o un error 404 si la instancia no se encuentra.
         """
-        expedient = self.get_queryset(pk)
+        expedient = self.serializer_class.Meta.model.objects.filter(pk=pk,is_active=True).first()
         
         if expedient:
             expedient.is_active = False

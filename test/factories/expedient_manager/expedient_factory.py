@@ -14,7 +14,7 @@ class ExpedientFactory:
             'diastolic':'80',
             'patient':patient.id,
         }
-    def build_expedient(self,patient):
+    def build_expedient(self,patient)->Expedient:
         expedient = ExpedientSerializer(data=self.build_expedient_JSON(patient))
         expedient.is_valid()
         return expedient.save()
