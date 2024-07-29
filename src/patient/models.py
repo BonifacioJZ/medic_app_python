@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import pre_save
 from src.class_lib.models import Person
+from src.allergies.models import Allergies
 # Create your models here.
 
 class Familiar(Person):
@@ -13,6 +14,7 @@ class Familiar(Person):
 
 class Patient(Person):
     familiar = models.ManyToManyField(Familiar,blank=True,related_name="familiar")
+    allergies = models.ManyToManyField(Allergies,blank=True,related_name="allergies")
     
     class Meta:
         verbose_name = 'patient'
@@ -24,7 +26,7 @@ class Patient(Person):
 
 
 def patient_pre_save(sender,instance,*args, **kwargs):
-        instance.curp.upper()
+    instance.curp.upper()
             
 pre_save.connect(patient_pre_save,sender=Patient)
 

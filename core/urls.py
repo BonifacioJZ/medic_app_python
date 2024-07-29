@@ -33,7 +33,7 @@ urlpatterns = [
     ##
     path(f"{const.BASE_URL}patient/",include('src.patient.urls')),
     ##
-    
+    path(f'{const.BASE_URL}allergiest/',include('src.allergies.urls')),
     ##
     path('admin/', admin.site.urls),
 ]
