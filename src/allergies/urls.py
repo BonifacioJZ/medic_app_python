@@ -15,10 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
-from .views import AllergiesListApiView,AllergiesCreateApiView,AllergiesRetriveApiView
+from .views import AllergiesListApiView,AllergiesCreateApiView,AllergiesRetriveApiView,AllergiesUpdateApiView,AllergiesDestroyApiView
 
 urlpatterns = [
     path('',AllergiesListApiView.as_view(),name='allergies_index'),
     path('new/',AllergiesCreateApiView.as_view(),name='allergies_store'),
     path('<str:slug>/',AllergiesRetriveApiView.as_view(),name='allergies_show'),
+    path('<str:pk>/edit/',AllergiesUpdateApiView.as_view(),name='allergies_edit'),
+    path('<str:pk>/delete/',AllergiesDestroyApiView.as_view(),name='allergies_destroy'),
+    
 ]

@@ -21,6 +21,11 @@ class Allergies(models.Model):
 
     def __str__(self):
         return self.name
+    def update_slug(self):
+        old_slug = self.slug.split("-")
+        self.slug = slugify('{}-{}'.format(
+            self.name,old_slug[1]
+        ))
 
 def create_slug(sender,instance:Allergies, *args, **kwargs):
     if instance.slug:
