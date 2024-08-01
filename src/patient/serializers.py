@@ -2,6 +2,7 @@ import datetime
 from rest_framework import serializers
 from .models import Familiar,Patient
 from src.expedient.models import Expedient
+from src.allergies.models import Allergies
 
 
 
@@ -59,13 +60,19 @@ class ListExpedietSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expedient
         fields = ('id','weight','height','pulse','temperature','breathing','systolic','diastolic')
-        
+
+class AllergiesPatientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Allergies
+        fields = ('id','name','slug')
+                
 class PatientDetailsSerializer(serializers.ModelSerializer):
     patient =  serializers.SerializerMethodField(method_name="get_expedients")
     familiar = FamiliarPatientSerializer(many=True,read_only=True)
+    allergies = AllergiesPatientSerializer(many=True,read_only=True)
     class Meta:
         model = Patient
-        fields = ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day','familiar','patient')
+        fields = ('id','first_name','last_name','curp','email','phone','address','city','colony','birth_day','familiar','patient','allergies')
     
     def get_age(self,patient:Patient):
         return datetime.datetime.now().year- patient.birth_day.year

@@ -11,10 +11,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='useraccount',
-            name='birth_day',
-            field=models.DateField(default=django.utils.timezone.now),
-            preserve_default=False,
-        ),
+        
     ]
